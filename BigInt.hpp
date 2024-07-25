@@ -450,11 +450,134 @@ public:
         }
         if (b1 == true)
         {
-            while (num[num.length() - 1] != '.')
+            bool E = false;
+            for (char i : num)
             {
+                if (i == 'E' || i == 'e')
+                {
+                    E = true;
+                    break;
+                }
+            }
+            if (E == true)
+            {
+                std::string e = "";
+                while (!(num.back() == 'E' || num.back() == 'e'))
+                {
+                    e.push_back(num.back());
+                    num.pop_back();
+                }
+                num.pop_back();
+
+                if (e.back() == '-')
+                {
+                    e.pop_back();
+                    while (num.back() != '.')
+                    {
+                        num.pop_back();
+                    }
+                    num.pop_back();
+                    while (e.back() == '0')
+                    {
+                        e.pop_back();
+                    }
+
+                    if (e.length() > 8)
+                    {
+                        num = "0";
+                        return;
+                    }
+                    if (e.length() == 0)
+                    {
+                        return;
+                    }
+                    reverse(e.begin(), e.end());
+                    long long it = std::stoll(e);
+                    while (it-- && num.length() > 0)
+                    {
+                        num.pop_back();
+                    }
+                }
+                else if (e.back() == '+')
+                {
+                    e.pop_back();
+                    std::string store = "";
+                    while (num.back() != '.')
+                    {
+                        store.push_back(num.back());
+                        num.pop_back();
+                    }
+                    num.pop_back();
+                    while (e.back() == '0')
+                    {
+                        e.pop_back();
+                    }
+                    reverse(e.begin(), e.end());
+
+                    if (e.length() > 4)
+                    {
+                        throw std::out_of_range("Length exceed 9999.");
+                    }
+                    else
+                    {
+                        long long l1 = std::stoll(e);
+                        while (l1-- && store.length() > 0)
+                        {
+                            num.push_back(store.back());
+                            store.pop_back();
+                        }
+                        while (l1--)
+                        {
+                            num.push_back('0');
+                        }
+                    }
+                }
+                else
+                {
+
+                    std::string store = "";
+                    while (num.back() != '.')
+                    {
+                        store.push_back(num.back());
+                        num.pop_back();
+                    }
+                    num.pop_back();
+                    while (e.back() == '0')
+                    {
+                        e.pop_back();
+                    }
+                    reverse(e.begin(), e.end());
+                    if (e.length() > 4)
+                    {
+                        throw std::out_of_range("Length exceed 9999.");
+                    }
+                    else
+                    {
+                        long long l1 = std::stoll(e);
+
+                        while (l1--)
+                        {
+                            if (store.length() > 0)
+                            {
+                                num.push_back(store.back());
+                                store.pop_back();
+                            }
+                            else
+                            {
+                                num.push_back('0');
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                while (num[num.length() - 1] != '.')
+                {
+                    num.pop_back();
+                }
                 num.pop_back();
             }
-            num.pop_back();
         }
     }
     bool findE(std::string &num)
